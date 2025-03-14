@@ -1,443 +1,146 @@
-Critical errors
----------------
-No critical errors, all files were checked.
-Important: Analysis is still not guaranteed to be 'complete' it is possible there are false negatives.
-
-
-Open source checkers
---------------------
-Yes  Check64BitPortability::pointerassignment
-Yes  CheckAssert::assertWithSideEffects
-Yes  CheckAutoVariables::assignFunctionArg
-Yes  CheckAutoVariables::autoVariables
-Yes  CheckAutoVariables::checkVarLifetime
-No   CheckBool::checkAssignBoolToFloat                         require:style,c++
-Yes  CheckBool::checkAssignBoolToPointer
-No   CheckBool::checkBitwiseOnBoolean                          require:style,inconclusive
-Yes  CheckBool::checkComparisonOfBoolExpressionWithInt
-No   CheckBool::checkComparisonOfBoolWithBool                  require:style,c++
-No   CheckBool::checkComparisonOfBoolWithInt                   require:warning,c++
-No   CheckBool::checkComparisonOfFuncReturningBool             require:style,c++
-Yes  CheckBool::checkIncrementBoolean
-Yes  CheckBool::pointerArithBool
-Yes  CheckBool::returnValueOfFunctionReturningBool
-No   CheckBoost::checkBoostForeachModification
-Yes  CheckBufferOverrun::analyseWholeProgram
-Yes  CheckBufferOverrun::argumentSize
-Yes  CheckBufferOverrun::arrayIndex
-Yes  CheckBufferOverrun::arrayIndexThenCheck
-Yes  CheckBufferOverrun::bufferOverflow
-Yes  CheckBufferOverrun::negativeArraySize
-Yes  CheckBufferOverrun::objectIndex
-Yes  CheckBufferOverrun::pointerArithmetic
-No   CheckBufferOverrun::stringNotZeroTerminated               require:warning,inconclusive
-Yes  CheckClass::analyseWholeProgram
-No   CheckClass::checkConst                                    require:style,inconclusive
-No   CheckClass::checkConstructors                             require:style,warning
-No   CheckClass::checkCopyConstructors                         require:warning
-No   CheckClass::checkDuplInheritedMembers                     require:warning
-No   CheckClass::checkExplicitConstructors                     require:style
-No   CheckClass::checkMemset
-No   CheckClass::checkMissingOverride                          require:style,c++03
-No   CheckClass::checkSelfInitialization
-No   CheckClass::checkThisUseAfterFree                         require:warning
-No   CheckClass::checkUnsafeClassRefMember                     require:warning,safeChecks
-No   CheckClass::checkUselessOverride                          require:style
-No   CheckClass::checkVirtualFunctionCallInConstructor         require:warning
-No   CheckClass::initializationListUsage                       require:performance
-No   CheckClass::initializerListOrder                          require:style,inconclusive
-No   CheckClass::operatorEqRetRefThis                          require:style
-No   CheckClass::operatorEqToSelf                              require:warning
-No   CheckClass::privateFunctions                              require:style
-No   CheckClass::thisSubtraction                               require:warning
-No   CheckClass::virtualDestructor
-Yes  CheckCondition::alwaysTrueFalse
-Yes  CheckCondition::assignIf
-Yes  CheckCondition::checkAssignmentInCondition
-Yes  CheckCondition::checkBadBitmaskCheck
-No   CheckCondition::checkCompareValueOutOfTypeRange           require:style,platform
-Yes  CheckCondition::checkDuplicateConditionalAssign
-Yes  CheckCondition::checkIncorrectLogicOperator
-Yes  CheckCondition::checkInvalidTestForOverflow
-Yes  CheckCondition::checkModuloAlwaysTrueFalse
-Yes  CheckCondition::checkPointerAdditionResultNotNull
-Yes  CheckCondition::clarifyCondition
-Yes  CheckCondition::comparison
-Yes  CheckCondition::duplicateCondition
-Yes  CheckCondition::multiCondition
-Yes  CheckCondition::multiCondition2
-No   CheckExceptionSafety::checkCatchExceptionByValue          require:style
-No   CheckExceptionSafety::checkRethrowCopy                    require:style
-No   CheckExceptionSafety::deallocThrow                        require:warning
-No   CheckExceptionSafety::destructors                         require:warning
-No   CheckExceptionSafety::nothrowThrows
-No   CheckExceptionSafety::rethrowNoCurrentException
-No   CheckExceptionSafety::unhandledExceptionSpecification     require:style,inconclusive
-Yes  CheckFunctions::checkIgnoredReturnValue
-Yes  CheckFunctions::checkMathFunctions
-Yes  CheckFunctions::checkMissingReturn
-Yes  CheckFunctions::checkProhibitedFunctions
-Yes  CheckFunctions::invalidFunctionUsage
-Yes  CheckFunctions::memsetInvalid2ndParam
-Yes  CheckFunctions::memsetZeroBytes
-No   CheckFunctions::returnLocalStdMove                        require:performance,c++11
-Yes  CheckFunctions::useStandardLibrary
-No   CheckIO::checkCoutCerrMisusage                            require:c
-Yes  CheckIO::checkFileUsage
-Yes  CheckIO::checkWrongPrintfScanfArguments
-Yes  CheckLeakAutoVar::check
-No   CheckMemoryLeakInClass::check
-Yes  CheckMemoryLeakInFunction::checkReallocUsage
-Yes  CheckMemoryLeakNoVar::check
-Yes  CheckMemoryLeakStructMember::check
-Yes  CheckNullPointer::analyseWholeProgram
-Yes  CheckNullPointer::arithmetic
-Yes  CheckNullPointer::nullConstantDereference
-Yes  CheckNullPointer::nullPointer
-No   CheckOther::checkAccessOfMovedVariable                    require:c++11,warning
-Yes  CheckOther::checkCastIntToCharAndBack
-Yes  CheckOther::checkCharVariable
-Yes  CheckOther::checkComparePointers
-Yes  CheckOther::checkComparisonFunctionIsAlwaysTrueOrFalse
-Yes  CheckOther::checkConstPointer
-No   CheckOther::checkDuplicateBranch                          require:style,inconclusive
-Yes  CheckOther::checkDuplicateExpression
-Yes  CheckOther::checkEvaluationOrder
-Yes  CheckOther::checkFuncArgNamesDifferent
-No   CheckOther::checkIncompleteArrayFill                      require:warning,portability,inconclusive
-Yes  CheckOther::checkIncompleteStatement
-No   CheckOther::checkInterlockedDecrement                     require:windows-platform
-Yes  CheckOther::checkInvalidFree
-Yes  CheckOther::checkKnownArgument
-Yes  CheckOther::checkKnownPointerToBool
-No   CheckOther::checkMisusedScopedObject                      require:style,c++
-Yes  CheckOther::checkModuloOfOne
-Yes  CheckOther::checkNanInArithmeticExpression
-Yes  CheckOther::checkNegativeBitwiseShift
-Yes  CheckOther::checkOverlappingWrite
-No   CheckOther::checkPassByReference                          require:performance,c++
-Yes  CheckOther::checkRedundantAssignment
-No   CheckOther::checkRedundantCopy                            require:c++,performance,inconclusive
-Yes  CheckOther::checkRedundantPointerOp
-Yes  CheckOther::checkShadowVariables
-Yes  CheckOther::checkSignOfUnsignedVariable
-No   CheckOther::checkSuspiciousCaseInSwitch                   require:warning,inconclusive
-No   CheckOther::checkSuspiciousSemicolon                      require:warning,inconclusive
-Yes  CheckOther::checkUnreachableCode
-Yes  CheckOther::checkUnusedLabel
-Yes  CheckOther::checkVarFuncNullUB
-Yes  CheckOther::checkVariableScope
-Yes  CheckOther::checkZeroDivision
-Yes  CheckOther::clarifyCalculation
-Yes  CheckOther::clarifyStatement
-Yes  CheckOther::invalidPointerCast
-Yes  CheckOther::redundantBitwiseOperationInSwitch
-No   CheckOther::warningOldStylePointerCast                    require:style,c++
-No   CheckPostfixOperator::postfixOperator                     require:performance
-Yes  CheckSizeof::checkSizeofForArrayParameter
-Yes  CheckSizeof::checkSizeofForNumericParameter
-Yes  CheckSizeof::checkSizeofForPointerSize
-Yes  CheckSizeof::sizeofCalculation
-Yes  CheckSizeof::sizeofFunction
-Yes  CheckSizeof::sizeofVoid
-Yes  CheckSizeof::sizeofsizeof
-No   CheckSizeof::suspiciousSizeofCalculation                  require:warning,inconclusive
-No   CheckStl::checkDereferenceInvalidIterator                 require:warning
-No   CheckStl::checkDereferenceInvalidIterator2
-No   CheckStl::checkFindInsert                                 require:performance
-No   CheckStl::checkMutexes                                    require:warning
-No   CheckStl::erase
-No   CheckStl::if_find                                         require:warning,performance
-No   CheckStl::invalidContainer
-No   CheckStl::iterators
-No   CheckStl::knownEmptyContainer                             require:style
-No   CheckStl::misMatchingContainerIterator
-No   CheckStl::misMatchingContainers
-No   CheckStl::missingComparison                               require:warning
-No   CheckStl::negativeIndex
-No   CheckStl::outOfBounds
-No   CheckStl::outOfBoundsIndexExpression
-No   CheckStl::redundantCondition                              require:style
-No   CheckStl::size                                            require:performance,c++03
-No   CheckStl::stlBoundaries
-No   CheckStl::stlOutOfBounds
-No   CheckStl::string_c_str
-No   CheckStl::useStlAlgorithm                                 require:style
-No   CheckStl::uselessCalls                                    require:performance,warning
-Yes  CheckString::checkAlwaysTrueOrFalseStringCompare
-Yes  CheckString::checkIncorrectStringCompare
-Yes  CheckString::checkSuspiciousStringCompare
-Yes  CheckString::overlappingStrcmp
-Yes  CheckString::sprintfOverlappingData
-Yes  CheckString::strPlusChar
-Yes  CheckString::stringLiteralWrite
-Yes  CheckType::checkFloatToIntegerOverflow
-Yes  CheckType::checkIntegerOverflow
-Yes  CheckType::checkLongCast
-Yes  CheckType::checkSignConversion
-Yes  CheckType::checkTooBigBitwiseShift
-Yes  CheckUninitVar::check
-Yes  CheckUninitVar::valueFlowUninit
-Yes  CheckUnusedFunctions::analyseWholeProgram
-Yes  CheckUnusedVar::checkFunctionVariableUsage
-Yes  CheckUnusedVar::checkStructMemberUsage
-Yes  CheckVaarg::va_list_usage
-Yes  CheckVaarg::va_start_argument
-
-
-Premium checkers
-----------------
-Not available, Cppcheck Premium is not used
-
-
-Autosar
--------
-Not available, Cppcheck Premium is not used
-
-
-Cert C
-------
-Not available, Cppcheck Premium is not used
-
-
-Cert C++
---------
-Not available, Cppcheck Premium is not used
-
-
-Misra C
--------
-Misra is not enabled
-
-
-Misra C++ 2008
---------------
-Not available, Cppcheck Premium is not used
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-    Функция input_size запрашивает у пользователя размеры матрицы (количество строк и столбцов).
-    Если ввод корректен, flag остается 0, иначе flag устанавливается в 1.
-*/
-void input_size(int *n_size_row, int *n_size_col, int *flag);
-
-/*
-    Функция pointer_allocated выделяет память для указателей на строки матрицы и инициализирует их.
-*/
-void pointer_allocated(int **pointer_el, int *matrix_num, int n_size_row, int n_size_col);
-
-/*
-    Функция input_num запрашивает у пользователя элементы матрицы.
-    Если ввод корректен, flag остается 0, иначе flag устанавливается в 1.
-*/
-void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag);
-
-/*
-    Функция output_matrix выводит матрицу на экран.
-*/
-void output_matrix(int **matrix_num, int n_size_row, int n_size_col);
-
-/*
-    Функция sort_vertical сортирует матрицу змейкой по вертикали.
-*/
-void sort_vertical(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col);
-
-/*
-    Функция sort_horizontal сортирует матрицу змейкой по горизонтали.
-*/
-void sort_horizontal(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col);
+void input_size(int *n, int *m, int *err);
+void pointer_alloc(int **ptr, int *mat, int rows, int cols);
+void input_matrix(int **ptr, int rows, int cols, int *err);
+void output(int **mat, int rows, int cols);
+void snake_vertical(int **src, int **dst, int rows, int cols);
+void snake_horizontal(int **src, int **dst, int rows, int cols);
 
 int main() {
-    int n_size_row, n_size_col, flag;
-    input_size(&n_size_row, &n_size_col, &flag);
-
-    if (flag == 0) {
-        int* matrix = (int *)malloc(n_size_col * n_size_row * sizeof(int));
-        int** pointer_el = (int **)malloc(n_size_row * sizeof(int*));
-        if (matrix == NULL || pointer_el == NULL) {
-            printf("n/a");
-            if (matrix) free(matrix);
-            if (pointer_el) free(pointer_el);
-            return 1;
-        }
-        pointer_allocated(pointer_el, matrix, n_size_row, n_size_col);
-        input_num(pointer_el, n_size_row, n_size_col, &flag);
-
-        if (flag == 0) {
-            // Создаем матрицы для сортировки
-            int* matrix_vertical = (int *)malloc(n_size_col * n_size_row * sizeof(int));
-            int** pointer_el_vertical = (int **)malloc(n_size_row * sizeof(int*));
-            int* matrix_horizontal = (int *)malloc(n_size_col * n_size_row * sizeof(int));
-            int** pointer_el_horizontal = (int **)malloc(n_size_row * sizeof(int*));
-
-            if (matrix_vertical == NULL || pointer_el_vertical == NULL ||
-                matrix_horizontal == NULL || pointer_el_horizontal == NULL) {
-                printf("n/a");
-                free(matrix);
-                free(pointer_el);
-                if (matrix_vertical) free(matrix_vertical);
-                if (pointer_el_vertical) free(pointer_el_vertical);
-                if (matrix_horizontal) free(matrix_horizontal);
-                if (pointer_el_horizontal) free(pointer_el_horizontal);
-                return 1;
-            }
-
-            pointer_allocated(pointer_el_vertical, matrix_vertical, n_size_row, n_size_col);
-            pointer_allocated(pointer_el_horizontal, matrix_horizontal, n_size_row, n_size_col);
-
-            // Сортировка и вывод
-            sort_vertical(pointer_el, pointer_el_vertical, n_size_row, n_size_col);
-            output_matrix(pointer_el_vertical, n_size_row, n_size_col);
-            printf("\n");
-
-            sort_horizontal(pointer_el, pointer_el_horizontal, n_size_row, n_size_col);
-            output_matrix(pointer_el_horizontal, n_size_row, n_size_col);
-
-            // Освобождение памяти
-            free(matrix);
-            free(pointer_el);
-            free(matrix_vertical);
-            free(pointer_el_vertical);
-            free(matrix_horizontal);
-            free(pointer_el_horizontal);
-        } else {
-            printf("n/a");
-            free(matrix);
-            free(pointer_el);
-        }
-    } else {
+    int rows, cols, err = 0;
+    input_size(&rows, &cols, &err);
+    
+    if (err) {
         printf("n/a");
+        return 0;
     }
 
+    int *mat_data = malloc(rows * cols * sizeof(int));
+    int **matrix = malloc(rows * sizeof(int*));
+    if (!mat_data || !matrix) {
+        printf("n/a");
+        if (mat_data) free(mat_data);
+        if (matrix) free(matrix);
+        return 0;
+    }
+    pointer_alloc(matrix, mat_data, rows, cols);
+    
+    input_matrix(matrix, rows, cols, &err);
+    if (err) {
+        printf("n/a");
+        free(mat_data);
+        free(matrix);
+        return 0;
+    }
+
+    // Vertical sort
+    int *vert_data = malloc(rows * cols * sizeof(int));
+    int **vert = malloc(rows * sizeof(int*));
+    if (!vert_data || !vert) {
+        printf("n/a");
+        free(mat_data);
+        free(matrix);
+        if (vert_data) free(vert_data);
+        if (vert) free(vert);
+        return 0;
+    }
+    pointer_alloc(vert, vert_data, rows, cols);
+    snake_vertical(matrix, vert, rows, cols);
+    output(vert, rows, cols);
+    printf("\n\n");
+
+    // Horizontal sort
+    int *horiz_data = malloc(rows * cols * sizeof(int));
+    int **horiz = malloc(rows * sizeof(int*));
+    if (!horiz_data || !horiz) {
+        printf("n/a");
+        free(mat_data);
+        free(matrix);
+        free(vert_data);
+        free(vert);
+        if (horiz_data) free(horiz_data);
+        if (horiz) free(horiz);
+        return 0;
+    }
+    pointer_alloc(horiz, horiz_data, rows, cols);
+    snake_horizontal(matrix, horiz, rows, cols);
+    output(horiz, rows, cols);
+
+    // Cleanup
+    free(mat_data);
+    free(matrix);
+    free(vert_data);
+    free(vert);
+    free(horiz_data);
+    free(horiz);
     return 0;
 }
 
-void input_size(int *n_size_row, int *n_size_col, int *flag) {
-    *flag = 0;
-    char c;
-    char c1;
-    if (scanf("%d%c%d%c", n_size_row, &c, n_size_col, &c1) ==
-        4 && c == 32 && c1 == 10 && *n_size_row > 0 && *n_size_col > 0) {
-    } else {
-        *flag = 1;
-    }
-}
-
-void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag) {
-    int p_str;
-    char c_srt;
-    for (int i = 0; i < n_size_row; i++) {
-        for (int j = 0; j < n_size_col; j++) {
-            if (scanf("%d%c", &p_str, &c_srt) ==
-                2 && (c_srt == 32 || c_srt == 10)) {
-                pointer_el[i][j] = p_str;
-            } else {
-                *flag = 1;
-                return;
+void snake_vertical(int **src, int **dst, int rows, int cols) {
+    int *tmp = malloc(rows * cols * sizeof(int));
+    if (!tmp) return;
+    
+    // Flatten and sort
+    int k = 0;
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            tmp[k++] = src[i][j];
+    
+    for (int i = 0; i < rows*cols-1; i++)
+        for (int j = 0; j < rows*cols-i-1; j++)
+            if (tmp[j] > tmp[j+1]) {
+                int t = tmp[j];
+                tmp[j] = tmp[j+1];
+                tmp[j+1] = t;
             }
-        }
-    }
-}
-
-void output_matrix(int **matrix_num, int n_size_row, int n_size_col) {
-    for (int j = 0; j < n_size_row; j++) {
-        for (int i = 0; i < n_size_col; i++) {
-            if (i + 1 != n_size_col) {
-                printf("%d ", matrix_num[j][i]);
-            } else {
-                printf("%d", matrix_num[j][i]);
-            }
-        }
-        if (j + 1 != n_size_row) {
-            printf("\n");
-        }
-    }
-}
-
-void sort_vertical(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col) {
-    int count = 0;
-    int *temp_array = (int *)malloc(n_size_row * n_size_col * sizeof(int));
-    if (temp_array == NULL) {
-        return;
-    }
-
-    // Векторизация матрицы
-    for (int i = 0; i < n_size_row; i++) {
-        for (int j = 0; j < n_size_col; j++) {
-            temp_array[count++] = matrix_old[i][j];
-        }
-    }
-
-    // Сортировка массива
-    for (int i = 0; i < n_size_row * n_size_col - 1; i++) {
-        for (int j = 0; j < n_size_row * n_size_col - i - 1; j++) {
-            if (temp_array[j] > temp_array[j + 1]) {
-                int temp = temp_array[j];
-                temp_array[j] = temp_array[j + 1];
-                temp_array[j + 1] = temp;
-            }
-        }
-    }
-
-    // Заполнение новой матрицы змейкой по вертикали
-    count = 0;
-    for (int j = 0; j < n_size_col; j++) {
+    
+    // Fill snake
+    k = 0;
+    for (int j = 0; j < cols; j++) {
         if (j % 2 == 0) {
-            for (int i = 0; i < n_size_row; i++) {
-                matrix_new[i][j] = temp_array[count++];
-            }
+            for (int i = 0; i < rows; i++)
+                dst[i][j] = tmp[k++];
         } else {
-            for (int i = n_size_row - 1; i >= 0; i--) {
-                matrix_new[i][j] = temp_array[count++];
-            }
+            for (int i = rows-1; i >= 0; i--)
+                dst[i][j] = tmp[k++];
         }
     }
-
-    free(temp_array);
+    free(tmp);
 }
 
-void sort_horizontal(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col) {
-    int count = 0;
-    int *temp_array = (int *)malloc(n_size_row * n_size_col * sizeof(int));
-    if (temp_array == NULL) {
-        return;
-    }
-
-    // Векторизация матрицы
-    for (int i = 0; i < n_size_row; i++) {
-        for (int j = 0; j < n_size_col; j++) {
-            temp_array[count++] = matrix_old[i][j];
-        }
-    }
-
-    // Сортировка массива
-    for (int i = 0; i < n_size_row * n_size_col - 1; i++) {
-        for (int j = 0; j < n_size_row * n_size_col - i - 1; j++) {
-            if (temp_array[j] > temp_array[j + 1]) {
-                int temp = temp_array[j];
-                temp_array[j] = temp_array[j + 1];
-                temp_array[j + 1] = temp;
+void snake_horizontal(int **src, int **dst, int rows, int cols) {
+    int *tmp = malloc(rows * cols * sizeof(int));
+    if (!tmp) return;
+    
+    // Flatten and sort
+    int k = 0;
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            tmp[k++] = src[i][j];
+    
+    for (int i = 0; i < rows*cols-1; i++)
+        for (int j = 0; j < rows*cols-i-1; j++)
+            if (tmp[j] > tmp[j+1]) {
+                int t = tmp[j];
+                tmp[j] = tmp[j+1];
+                tmp[j+1] = t;
             }
-        }
-    }
-
-    // Заполнение новой матрицы змейкой по горизонтали
-    count = 0;
-    for (int i = 0; i < n_size_row; i++) {
+    
+    // Fill snake
+    k = 0;
+    for (int i = 0; i < rows; i++) {
         if (i % 2 == 0) {
-            for (int j = 0; j < n_size_col; j++) {
-                matrix_new[i][j] = temp_array[count++];
-            }
+            for (int j = 0; j < cols; j++)
+                dst[i][j] = tmp[k++];
         } else {
-            for (int j = n_size_col - 1; j >= 0; j--) {
-                matrix_new[i][j] = temp_array[count++];
-            }
+            for (int j = cols-1; j >= 0; j--)
+                dst[i][j] = tmp[k++];
         }
     }
-
-    free(temp_array);
+    free(tmp);
 }
+
+// Остальные функции (input_size, pointer_alloc, input_matrix, output) 
+// остаются аналогичными предыдущему варианту, но с добавлением проверок
