@@ -1,90 +1,139 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-double det(double **matrix, int n, int m);
-
-int input(double **matrix, int *n, int *m);
-
-void output(double det);
+void input_size(int *n_size_row, int *n_size_col, int *flag);
+void pointer_allocation(double **pointer_el, double *matrix_num, int n_size_row, int n_size_col);
+void input_num(double **pointer_el, int n_size_row, int n_size_col, int *flag);
+void output_matrix(double **matrix_num, int n_size_row, int n_size_col);
+double determinant(double **matrix, int n_size);
+double **minor_matrix(double **matrix, int n_size, int exclude_row, int exclude_col);
+void free_matrix(double **matrix, int n_size);
 
 int main() {
-    double **matrix;
-    int n, m, flag = 1;
-    int count = scanf("%d%d", &n, &m);
-    if (count != 2 || n < 1 || m < 1 || n != m) {
-        printf("n/a");
-        flag = 0;
-    }
-    if (flag != 0) {
-        matrix = malloc(n * m * sizeof(double *) + m * sizeof(double *));
-        double *p = (double *)(matrix + n);
-        for (int i = 0; i < n; ++i) {
-            matrix[i] = p + m * i;
-        }
-        count = input(matrix, &n, &m);
-        if (count == 0) {
-            free(matrix);
-            flag = 0;
-        }
-        if (flag != 0) {
-            output(det(matrix, n, m));
-            free(matrix);
-        }
-    }
-    return 0;
-}
+    int n_size_row, n_size_col, flag;
+    input_size(&n_size_row, &n_size_col, &flag);
 
-int input(double **matrix, int *n, int *m) {
-    int count;
-    for (int i = 0; i < *n; ++i) {
-        for (int j = 0; j < *m - 1; j++) {
-            count = scanf("%lf", &matrix[i][j]);
-            if (count != 1) {
-                printf("n/a");
-                return 0;
-            }
-        }
-        count = scanf("%lf", &matrix[i][*m - 1]);
-        if (count != 1) {
+    if (flag == 0) {
+        if (n_size_row != n_size_col) {  // Определитель только для квадратной матрицы
             printf("n/a");
             return 0;
         }
+
+        double *matrix = (double *)malloc(n_size_col * n_size_row * sizeof(double));
+        double **pointer_el = (double **)malloc(n_size_row * sizeof(double *));
+        pointer_allocation(pointer_el, matrix, n_size_row, n_size_col);
+
+        input_num(pointer_el, n_size_row, n_size_col, &flag);
+
+        if (flag == 0) {
+            double det = determinant(pointer_el, n_size_row);
+            printf("%.6f", det);
+        } else {
+            printf("n/a");
+        }
+
+        free(matrix);
+        free(pointer_el);
+    } else {
+        printf("n/a");
     }
-    return 1;
+
+    return 0;
 }
 
-void output(double det) { printf("%.6lf", det); }
-
-double det(double **matrix, int n, int m) {
-    // Базовый случай: для матрицы 1x1 определитель равен единственному элементу
-    if (n == 1) {
-        return matrix[0][0];
+void input_size(int *n_size_row, int *n_size_col, int *flag) {
+    *flag = 0;
+    char c;
+    if (scanf("%d %d%c", n_size_row, n_size_col, &c) == 3 && c == '\n' && *n_size_row > 0 && *n_size_col > 0) {
+        return;
+    } else {
+        *flag = 1;
     }
-    double determinant = 0.0;
-    double **submatrix;  // Подматрица, полученная после удаления первой строки и j-го столбца
-    for (int j = 0; j < n; j++) {
-        submatrix = malloc((n - 1) * (m - 1) * sizeof(double *) + (m - 1) * sizeof(double *));
-        double *p = (double *)(submatrix + (n - 1));
-        for (int i = 0; i < n - 1; ++i) {
-            submatrix[i] = p + (m - 1) * i;
-        }
-        // Заполняем подматрицу значениями, исключая первую строку и j-ый столбец
-        int sub_i = 0;
-        for (int i = 1; i < n; i++) {
-            int sub_j = 0;
-            for (int k = 0; k < n; k++) {
-                if (k != j) {
-                    submatrix[sub_i][sub_j] = matrix[i][k];
-                    sub_j++;
-                }
+}
+
+void input_num(double **pointer_el, int n_size_row, int n_size_col, int *flag) {
+    *flag = 0;
+    double p_val;
+    char space_or_newline;
+
+    for (int i = 0; i < n_size_row; i++) {
+        for (int j = 0; j < n_size_col; j++) {
+            if (scanf("%lf%c", &p_val, &space_or_newline) == 2 && (space_or_newline == ' ' || space_or_newline == '\n')) {
+                pointer_el[i][j] = p_val;
+            } else {
+                *flag = 1;
+                return;
             }
-            sub_i++;
+        }
+    }
+}
+
+void pointer_allocation(double **pointer_el, double *matrix_num, int n_size_row, int n_size_col) {
+    for (int i = 0; i < n_size_row; i++) {
+        pointer_el[i] = matrix_num + i * n_size_col;
+    }
+}
+
+void output_matrix(double **matrix_num, int n_size_row, int n_size_col) {
+    for (int i = 0; i < n_size_row; i++) {
+        for (int j = 0; j < n_size_col; j++) {
+            if (j == n_size_col - 1) {
+                printf("%.6f", matrix_num[i][j]);
+            } else {
+                printf("%.6f ", matrix_num[i][j]);
+            }
+        }
+        if (i != n_size_row - 1) {
+            printf("\n");
+        }
+    }
+}
+
+double determinant(double **matrix, int n_size) {
+    if (n_size == 1) {
+        return matrix[0][0];
+    } else if (n_size == 2) {
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+    } else {
+        double det = 0.0;
+
+        for (int col = 0; col < n_size; col++) {
+            double **submatrix = minor_matrix(matrix, n_size, 0, col);
+            double minor_det = determinant(submatrix, n_size - 1);
+            det += ((col % 2 == 0 ? 1 : -1) * matrix[0][col] * minor_det);
+
+            free_matrix(submatrix, n_size - 1);
         }
 
-        // Вычисляем дополнение и добавляем его к определителю
-        determinant += matrix[0][j] * ((j % 2 == 0) ? 1 : -1) * det(submatrix, n - 1, m - 1);
-        free(submatrix);
+        return det;
+    }
+}
+
+double **minor_matrix(double **matrix, int n_size, int exclude_row, int exclude_col) {
+    double *minor_data = (double *)malloc((n_size - 1) * (n_size - 1) * sizeof(double));
+    double **minor = (double **)malloc((n_size - 1) * sizeof(double *));
+    for (int i = 0; i < n_size - 1; i++) {
+        minor[i] = minor_data + i * (n_size - 1);
     }
 
-    return determinant;
+    int minor_row = 0, minor_col = 0;
+    for (int i = 0; i < n_size; i++) {
+        if (i == exclude_row) continue;
+
+        minor_col = 0;
+        for (int j = 0; j < n_size; j++) {
+            if (j == exclude_col) continue;
+
+            minor[minor_row][minor_col] = matrix[i][j];
+            minor_col++;
+        }
+        minor_row++;
+    }
+
+    return minor;
+}
+
+void free_matrix(double **matrix, int n_size) {
+    free(matrix[0]);  // Освобождаем первую строку (данные)
+    free(matrix);     // Освобождаем сам массив указателей
 }
