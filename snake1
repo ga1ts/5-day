@@ -1,60 +1,74 @@
-admin@fff:~/Downloads$ cppcheck --enable=all --suppress=missingIncludeSystem snake1.c
-Checking snake1.c ...
-nofile:0:0: information: Active checkers: 106/592 (use --checkers-report=<filename> to see details) [checkersReport]
-
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    Функция input_size запрашивает у пользователя размеры матрицы (количество строк и столбцов).
+    Если ввод корректен, flag остается 0, иначе flag устанавливается в 1.
+*/
+void input_size(int *n_size_row, int *n_size_col, int *flag);
 
-    //Функция  запрашивает у пользователя размеры матрицы (количество строк и столбцов).
-   
+/*
+    Функция pointer_allocated выделяет память для указателей на строки матрицы и инициализирует их.
+*/
+void pointer_allocated(int **pointer_el, int *matrix_num, int n_size_row, int n_size_col);
 
-void input_size(int* n_size_row, int* n_size_col, int* flag);
+/*
+    Функция input_num запрашивает у пользователя элементы матрицы.
+    Если ввод корректен, flag остается 0, иначе flag устанавливается в 1.
+*/
+void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag);
 
+/*
+    Функция output_matrix выводит матрицу на экран.
+*/
+void output_matrix(int **matrix_num, int n_size_row, int n_size_col);
 
-    //Функция выделяет память для указателей на строки матрицы и инициализирует их.
+/*
+    Функция sort_vertical сортирует матрицу змейкой по вертикали.
+*/
+void sort_vertical(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col);
 
-void pointer_allocated(int** pointer_el, int* matrix_num, int n_size_row, int n_size_col);
-
-
-   // Функция  запрашивает у пользователя элементы матрицы.
-    
-
-void input_num(int** pointer_el, int n_size_row, int n_size_col, int* flag);
-
-
-  // Функция output_matrix выводит матрицу на экран.
-
-void output_matrix(int** matrix_num, int n_size_row, int n_size_col);
-
-
-    //Функция sort_vertical сортирует матрицу змейкой по вертикали.
-
-void sort_vertical(int** matrix_old, int** matrix_new, int n_size_row, int n_size_col);
-
-
-    //Функция sort_horizontal сортирует матрицу змейкой по горизонтали.
-
-void sort_horizontal(int** matrix_old, int** matrix_new, int n_size_row, int n_size_col);
+/*
+    Функция sort_horizontal сортирует матрицу змейкой по горизонтали.
+*/
+void sort_horizontal(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col);
 
 int main() {
     int n_size_row, n_size_col, flag;
     input_size(&n_size_row, &n_size_col, &flag);
 
     if (flag == 0) {
-        int* matrix = (int*)malloc(n_size_col * n_size_row * sizeof(int));
-        int** pointer_el = (int**)malloc(n_size_row * sizeof(int*));
+        int* matrix = (int *)malloc(n_size_col * n_size_row * sizeof(int));
+        int** pointer_el = (int **)malloc(n_size_row * sizeof(int*));
+        if (matrix == NULL || pointer_el == NULL) {
+            printf("n/a");
+            if (matrix) free(matrix);
+            if (pointer_el) free(pointer_el);
+            return 1;
+        }
         pointer_allocated(pointer_el, matrix, n_size_row, n_size_col);
         input_num(pointer_el, n_size_row, n_size_col, &flag);
 
         if (flag == 0) {
             // Создаем матрицы для сортировки
-            int* matrix_vertical = (int*)malloc(n_size_col * n_size_row * sizeof(int));
-            int** pointer_el_vertical = (int**)malloc(n_size_row * sizeof(int*));
-            pointer_allocated(pointer_el_vertical, matrix_vertical, n_size_row, n_size_col);
+            int* matrix_vertical = (int *)malloc(n_size_col * n_size_row * sizeof(int));
+            int** pointer_el_vertical = (int **)malloc(n_size_row * sizeof(int*));
+            int* matrix_horizontal = (int *)malloc(n_size_col * n_size_row * sizeof(int));
+            int** pointer_el_horizontal = (int **)malloc(n_size_row * sizeof(int*));
 
-            int* matrix_horizontal = (int*)malloc(n_size_col * n_size_row * sizeof(int));
-            int** pointer_el_horizontal = (int**)malloc(n_size_row * sizeof(int*));
+            if (matrix_vertical == NULL || pointer_el_vertical == NULL ||
+                matrix_horizontal == NULL || pointer_el_horizontal == NULL) {
+                printf("n/a");
+                free(matrix);
+                free(pointer_el);
+                if (matrix_vertical) free(matrix_vertical);
+                if (pointer_el_vertical) free(pointer_el_vertical);
+                if (matrix_horizontal) free(matrix_horizontal);
+                if (pointer_el_horizontal) free(pointer_el_horizontal);
+                return 1;
+            }
+
+            pointer_allocated(pointer_el_vertical, matrix_vertical, n_size_row, n_size_col);
             pointer_allocated(pointer_el_horizontal, matrix_horizontal, n_size_row, n_size_col);
 
             // Сортировка и вывод
@@ -72,31 +86,30 @@ int main() {
             free(pointer_el_vertical);
             free(matrix_horizontal);
             free(pointer_el_horizontal);
-        }
-        else {
+        } else {
             printf("n/a");
+            free(matrix);
+            free(pointer_el);
         }
-    }
-    else {
+    } else {
         printf("n/a");
     }
 
     return 0;
 }
 
-void input_size(int* n_size_row, int* n_size_col, int* flag) {
+void input_size(int *n_size_row, int *n_size_col, int *flag) {
     *flag = 0;
     char c;
     char c1;
     if (scanf("%d%c%d%c", n_size_row, &c, n_size_col, &c1) ==
         4 && c == 32 && c1 == 10 && *n_size_row > 0 && *n_size_col > 0) {
-    }
-    else {
+    } else {
         *flag = 1;
     }
 }
 
-void input_num(int** pointer_el, int n_size_row, int n_size_col, int* flag) {
+void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag) {
     int p_str;
     char c_srt;
     for (int i = 0; i < n_size_row; i++) {
@@ -104,8 +117,7 @@ void input_num(int** pointer_el, int n_size_row, int n_size_col, int* flag) {
             if (scanf("%d%c", &p_str, &c_srt) ==
                 2 && (c_srt == 32 || c_srt == 10)) {
                 pointer_el[i][j] = p_str;
-            }
-            else {
+            } else {
                 *flag = 1;
                 return;
             }
@@ -113,13 +125,12 @@ void input_num(int** pointer_el, int n_size_row, int n_size_col, int* flag) {
     }
 }
 
-void output_matrix(int** matrix_num, int n_size_row, int n_size_col) {
+void output_matrix(int **matrix_num, int n_size_row, int n_size_col) {
     for (int j = 0; j < n_size_row; j++) {
         for (int i = 0; i < n_size_col; i++) {
             if (i + 1 != n_size_col) {
                 printf("%d ", matrix_num[j][i]);
-            }
-            else {
+            } else {
                 printf("%d", matrix_num[j][i]);
             }
         }
@@ -129,9 +140,12 @@ void output_matrix(int** matrix_num, int n_size_row, int n_size_col) {
     }
 }
 
-void sort_vertical(int** matrix_old, int** matrix_new, int n_size_row, int n_size_col) {
+void sort_vertical(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col) {
     int count = 0;
-    int* temp_array = (int*)malloc(n_size_row * n_size_col * sizeof(int));
+    int *temp_array = (int *)malloc(n_size_row * n_size_col * sizeof(int));
+    if (temp_array == NULL) {
+        return;
+    }
 
     // Векторизация матрицы
     for (int i = 0; i < n_size_row; i++) {
@@ -158,8 +172,7 @@ void sort_vertical(int** matrix_old, int** matrix_new, int n_size_row, int n_siz
             for (int i = 0; i < n_size_row; i++) {
                 matrix_new[i][j] = temp_array[count++];
             }
-        }
-        else {
+        } else {
             for (int i = n_size_row - 1; i >= 0; i--) {
                 matrix_new[i][j] = temp_array[count++];
             }
@@ -169,9 +182,12 @@ void sort_vertical(int** matrix_old, int** matrix_new, int n_size_row, int n_siz
     free(temp_array);
 }
 
-void sort_horizontal(int** matrix_old, int** matrix_new, int n_size_row, int n_size_col) {
+void sort_horizontal(int **matrix_old, int **matrix_new, int n_size_row, int n_size_col) {
     int count = 0;
-    int* temp_array = (int*)malloc(n_size_row * n_size_col * sizeof(int));
+    int *temp_array = (int *)malloc(n_size_row * n_size_col * sizeof(int));
+    if (temp_array == NULL) {
+        return;
+    }
 
     // Векторизация матрицы
     for (int i = 0; i < n_size_row; i++) {
@@ -198,8 +214,7 @@ void sort_horizontal(int** matrix_old, int** matrix_new, int n_size_row, int n_s
             for (int j = 0; j < n_size_col; j++) {
                 matrix_new[i][j] = temp_array[count++];
             }
-        }
-        else {
+        } else {
             for (int j = n_size_col - 1; j >= 0; j--) {
                 matrix_new[i][j] = temp_array[count++];
             }
