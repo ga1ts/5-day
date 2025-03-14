@@ -1,3 +1,7 @@
+admin@fff:~/Downloads$ cppcheck --enable=all --suppress=missingIncludeSystem snake1.c
+Checking snake1.c ...
+nofile:0:0: information: Active checkers: 106/592 (use --checkers-report=<filename> to see details) [checkersReport]
+
 #include <stdio.h>
 #include <stdlib.h>
 
