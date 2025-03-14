@@ -1,6 +1,3 @@
-det.c:77:0: style: The function 'output_matrix' is never used. [unusedFunction]
-void output_matrix(double **matrix_num, int n_size_row, int n_size_col) {
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,8 +26,10 @@ int main() {
         input_num(pointer_el, n_size_row, n_size_col, &flag);
 
         if (flag == 0) {
+            printf("Input matrix:\n");
+            output_matrix(pointer_el, n_size_row, n_size_col);  // Вывод матрицы для проверки
             double det = determinant(pointer_el, n_size_row);
-            printf("%.6f", det);
+            printf("\nDeterminant: %.6f", det);
         } else {
             printf("n/a");
         }
@@ -86,9 +85,7 @@ void output_matrix(double **matrix_num, int n_size_row, int n_size_col) {
                 printf("%.6f ", matrix_num[i][j]);
             }
         }
-        if (i != n_size_row - 1) {
-            printf("\n");
-        }
+        printf("\n");
     }
 }
 
