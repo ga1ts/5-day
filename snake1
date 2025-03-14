@@ -1,7 +1,10 @@
-// Copyright [year] <Copyright Owner>
-//
-// Created by Tashia Buttercup on 22.07.2021.
-//
+admin@fff:~/Downloads$ cppcheck --enable=all --suppress=missingIncludeSystem snake1.c
+Checking snake1.c ...
+snake1.c:143:70: error: Unmatched '{'. Configuration: ''. [syntaxError]
+                   int **matrix_new, int n_size_row, int n_size_col) {
+                                                                     ^
+nofile:0:0: information: Active checkers: There was critical errors (use --checkers-report=<filename> to see details) [checkersReport]
+
 
 #include <stdio.h>
 #include <stdlib.h>
