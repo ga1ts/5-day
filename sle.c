@@ -1,10 +1,3 @@
-Checking sle.c ...
-sle.c:121:27: style: Parameter 'roots' can be declared as pointer to const [constParameterPointer]
-void output_roots(double *roots, int n) {
-                          ^
-sle.c:131:0: style: The function 'free_matrix' is never used. [unusedFunction]
-void free_matrix(double **matrix) {
-
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,8 +7,7 @@ void free_matrix(double **matrix) {
 // Прототипы функций
 int sle(double **matrix, int n, int m, double *roots);
 int input(double **matrix, int n, int m);
-void output_roots(double *roots, int n);
-void free_matrix(double **matrix);
+void output_roots(const double *roots, int n);
 
 // Главная функция
 int main() {
@@ -125,16 +117,11 @@ int sle(double **matrix, int n, int m, double *roots) {
 }
 
 // Вывод решений
-void output_roots(double *roots, int n) {
+void output_roots(const double *roots, int n) { // Добавлен const
     for (int i = 0; i < n; i++) {
         printf("%.6lf", roots[i]);
         if (i < n - 1) {
             printf(" ");
         }
     }
-}
-
-// Освобождение памяти (если понадобится расширять код)
-void free_matrix(double **matrix) {
-    free(matrix);
 }
