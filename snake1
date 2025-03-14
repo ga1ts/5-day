@@ -1,146 +1,166 @@
+// Copyright [2023] <Copyright Owner>
 #include <stdio.h>
 #include <stdlib.h>
 
-void input_size(int *n, int *m, int *err);
-void pointer_alloc(int **ptr, int *mat, int rows, int cols);
-void input_matrix(int **ptr, int rows, int cols, int *err);
-void output(int **mat, int rows, int cols);
-void snake_vertical(int **src, int **dst, int rows, int cols);
-void snake_horizontal(int **src, int **dst, int rows, int cols);
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+void sort_horizontal(int **matrix, int n, int m, int **result_matrix);
+void sort_vertical(int **matrix, int n, int m, int **result_matrix);
+void input_size(int *n_size_row, int *n_size_col, int *flag);
+void pointer_allocated(int **pointer_el, int *matrix_num, int n_size_row, int n_size_col);
+void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag);
+void output_matrix(int **matrix_num, int n_size_row, int n_size_col);
 
 int main() {
-    int rows, cols, err = 0;
-    input_size(&rows, &cols, &err);
-    
-    if (err) {
-        printf("n/a");
-        return 0;
-    }
+    int n_size_row, n_size_col, flag;
+    input_size(&n_size_row, &n_size_col, &flag);
+    if (flag == 0) {
+        int *matrix = (int *)malloc(n_size_row * n_size_col * sizeof(int));
+        int **pointer_el = (int **)malloc(n_size_row * sizeof(int *));
+        if (matrix && pointer_el) {
+            pointer_allocated(pointer_el, matrix, n_size_row, n_size_col);
+            input_num(pointer_el, n_size_row, n_size_col, &flag);
+        } else {
+            flag = 1;
+        }
 
-    int *mat_data = malloc(rows * cols * sizeof(int));
-    int **matrix = malloc(rows * sizeof(int*));
-    if (!mat_data || !matrix) {
-        printf("n/a");
-        if (mat_data) free(mat_data);
+        if (flag == 0) {
+            int *horizontal_data = (int *)malloc(n_size_row * n_size_col * sizeof(int));
+            int **horizontal_matrix = (int **)malloc(n_size_row * sizeof(int *));
+            if (horizontal_data && horizontal_matrix) {
+                pointer_allocated(horizontal_matrix, horizontal_data, n_size_row, n_size_col);
+                sort_horizontal(pointer_el, n_size_row, n_size_col, horizontal_matrix);
+            } else {
+                flag = 1;
+            }
+
+            int *vertical_data = (int *)malloc(n_size_row * n_size_col * sizeof(int));
+            int **vertical_matrix = (int **)malloc(n_size_row * sizeof(int *));
+            if (vertical_data && vertical_matrix) {
+                pointer_allocated(vertical_matrix, vertical_data, n_size_row, n_size_col);
+                sort_vertical(pointer_el, n_size_row, n_size_col, vertical_matrix);
+            } else {
+                flag = 1;
+            }
+
+            if (flag == 0) {
+                output_matrix(horizontal_matrix, n_size_row, n_size_col);
+                printf("\n");
+                output_matrix(vertical_matrix, n_size_row, n_size_col);
+            } else {
+                printf("n/a");
+            }
+
+            if (horizontal_data) free(horizontal_data);
+            if (horizontal_matrix) free(horizontal_matrix);
+            if (vertical_data) free(vertical_data);
+            if (vertical_matrix) free(vertical_matrix);
+        } else {
+            printf("n/a");
+        }
+
         if (matrix) free(matrix);
-        return 0;
-    }
-    pointer_alloc(matrix, mat_data, rows, cols);
-    
-    input_matrix(matrix, rows, cols, &err);
-    if (err) {
+        if (pointer_el) free(pointer_el);
+    } else {
         printf("n/a");
-        free(mat_data);
-        free(matrix);
-        return 0;
     }
-
-    // Vertical sort
-    int *vert_data = malloc(rows * cols * sizeof(int));
-    int **vert = malloc(rows * sizeof(int*));
-    if (!vert_data || !vert) {
-        printf("n/a");
-        free(mat_data);
-        free(matrix);
-        if (vert_data) free(vert_data);
-        if (vert) free(vert);
-        return 0;
-    }
-    pointer_alloc(vert, vert_data, rows, cols);
-    snake_vertical(matrix, vert, rows, cols);
-    output(vert, rows, cols);
-    printf("\n\n");
-
-    // Horizontal sort
-    int *horiz_data = malloc(rows * cols * sizeof(int));
-    int **horiz = malloc(rows * sizeof(int*));
-    if (!horiz_data || !horiz) {
-        printf("n/a");
-        free(mat_data);
-        free(matrix);
-        free(vert_data);
-        free(vert);
-        if (horiz_data) free(horiz_data);
-        if (horiz) free(horiz);
-        return 0;
-    }
-    pointer_alloc(horiz, horiz_data, rows, cols);
-    snake_horizontal(matrix, horiz, rows, cols);
-    output(horiz, rows, cols);
-
-    // Cleanup
-    free(mat_data);
-    free(matrix);
-    free(vert_data);
-    free(vert);
-    free(horiz_data);
-    free(horiz);
     return 0;
 }
 
-void snake_vertical(int **src, int **dst, int rows, int cols) {
-    int *tmp = malloc(rows * cols * sizeof(int));
-    if (!tmp) return;
-    
-    // Flatten and sort
-    int k = 0;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            tmp[k++] = src[i][j];
-    
-    for (int i = 0; i < rows*cols-1; i++)
-        for (int j = 0; j < rows*cols-i-1; j++)
-            if (tmp[j] > tmp[j+1]) {
-                int t = tmp[j];
-                tmp[j] = tmp[j+1];
-                tmp[j+1] = t;
-            }
-    
-    // Fill snake
-    k = 0;
-    for (int j = 0; j < cols; j++) {
-        if (j % 2 == 0) {
-            for (int i = 0; i < rows; i++)
-                dst[i][j] = tmp[k++];
-        } else {
-            for (int i = rows-1; i >= 0; i--)
-                dst[i][j] = tmp[k++];
+void sort_horizontal(int **matrix, int n, int m, int **result_matrix) {
+    int *vec = (int *)malloc(n * m * sizeof(int));
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            vec[count++] = matrix[i][j];
         }
     }
-    free(tmp);
-}
+    qsort(vec, count, sizeof(int), compare);
 
-void snake_horizontal(int **src, int **dst, int rows, int cols) {
-    int *tmp = malloc(rows * cols * sizeof(int));
-    if (!tmp) return;
-    
-    // Flatten and sort
-    int k = 0;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            tmp[k++] = src[i][j];
-    
-    for (int i = 0; i < rows*cols-1; i++)
-        for (int j = 0; j < rows*cols-i-1; j++)
-            if (tmp[j] > tmp[j+1]) {
-                int t = tmp[j];
-                tmp[j] = tmp[j+1];
-                tmp[j+1] = t;
+    int index = 0;
+    for (int row = 0; row < n; row++) {
+        if (row % 2 == 0) {
+            for (int col = 0; col < m; col++) {
+                result_matrix[row][col] = vec[index++];
             }
-    
-    // Fill snake
-    k = 0;
-    for (int i = 0; i < rows; i++) {
-        if (i % 2 == 0) {
-            for (int j = 0; j < cols; j++)
-                dst[i][j] = tmp[k++];
         } else {
-            for (int j = cols-1; j >= 0; j--)
-                dst[i][j] = tmp[k++];
+            for (int col = m - 1; col >= 0; col--) {
+                result_matrix[row][col] = vec[index++];
+            }
         }
     }
-    free(tmp);
+    free(vec);
 }
 
-// Остальные функции (input_size, pointer_alloc, input_matrix, output) 
-// остаются аналогичными предыдущему варианту, но с добавлением проверок
+void sort_vertical(int **matrix, int n, int m, int **result_matrix) {
+    int *vec = (int *)malloc(n * m * sizeof(int));
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            vec[count++] = matrix[i][j];
+        }
+    }
+    qsort(vec, count, sizeof(int), compare);
+
+    int index = 0;
+    for (int col = 0; col < m; col++) {
+        if (col % 2 == 0) {
+            for (int row = 0; row < n; row++) {
+                result_matrix[row][col] = vec[index++];
+            }
+        } else {
+            for (int row = n - 1; row >= 0; row--) {
+                result_matrix[row][col] = vec[index++];
+            }
+        }
+    }
+    free(vec);
+}
+
+void input_size(int *n_size_row, int *n_size_col, int *flag) {
+    *flag = 0;
+    char c, c1;
+    if (scanf("%d%c%d%c", n_size_row, &c, n_size_col, &c1) == 4 && c == ' ' && c1 == '\n' &&
+        *n_size_row > 0 && *n_size_col > 0) {
+    } else {
+        *flag = 1;
+    }
+}
+
+void pointer_allocated(int **pointer_el, int *matrix_num, int n_size_row, int n_size_col) {
+    for (int i = 0; i < n_size_row; i++) {
+        pointer_el[i] = matrix_num + i * n_size_col;
+    }
+}
+
+void input_num(int **pointer_el, int n_size_row, int n_size_col, int *flag) {
+    int p_str;
+    char c_srt;
+    for (int i = 0; i < n_size_row; i++) {
+        for (int j = 0; j < n_size_col; j++) {
+            if (scanf("%d%c", &p_str, &c_srt) == 2 && (c_srt == ' ' || c_srt == '\n')) {
+                pointer_el[i][j] = p_str;
+            } else {
+                *flag = 1;
+                return;
+            }
+        }
+    }
+}
+
+void output_matrix(int **matrix_num, int n_size_row, int n_size_col) {
+    for (int j = 0; j < n_size_row; j++) {
+        for (int i = 0; i < n_size_col; i++) {
+            if (i + 1 != n_size_col) {
+                printf("%d ", matrix_num[j][i]);
+            } else {
+                printf("%d", matrix_num[j][i]);
+            }
+        }
+        if (j + 1 != n_size_row) {
+            printf("\n");
+        }
+    }
+}
