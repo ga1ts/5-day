@@ -1,3 +1,6 @@
+det.c:77:0: style: The function 'output_matrix' is never used. [unusedFunction]
+void output_matrix(double **matrix_num, int n_size_row, int n_size_col) {
+
 #include <stdio.h>
 #include <stdlib.h>
 
