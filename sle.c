@@ -1,3 +1,10 @@
+Checking sle.c ...
+sle.c:121:27: style: Parameter 'roots' can be declared as pointer to const [constParameterPointer]
+void output_roots(double *roots, int n) {
+                          ^
+sle.c:131:0: style: The function 'free_matrix' is never used. [unusedFunction]
+void free_matrix(double **matrix) {
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
